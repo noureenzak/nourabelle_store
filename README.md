@@ -1,2 +1,2 @@
-# Nourabelle_Online_Store
-A website for an online store 
+# Nourabelle Store
+A local brand for modest wear
