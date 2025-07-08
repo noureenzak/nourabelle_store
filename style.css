@@ -113,11 +113,21 @@ footer {
 }
 
 @keyframes slideShow {
-  0%, 20% { transform: translateX(0); }
-  25%, 45% { transform: translateX(-100%); }
-  50%, 70% { transform: translateX(-200%); }
-  75%, 100% { transform: translateX(0); }
+  0%, 10% { transform: translateX(0); }
+  15%, 25% { transform: translateX(-100vw); }
+  30%, 40% { transform: translateX(-200vw); }
+  45%, 55% { transform: translateX(-300vw); }
+  60%, 70% { transform: translateX(-400vw); }
+  75%, 85% { transform: translateX(-500vw); }
+  90%, 100% { transform: translateX(0); }
 }
+
+.hero .slider-wrapper {
+  display: flex;
+  width: 600vw; /* 6 images, each 100vw wide */
+  animation: slideShow 36s infinite;
+}
+
 
 .overlay {
   position: absolute;
