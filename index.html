@@ -10,21 +10,46 @@
 
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
+  <script defer src="cart.js"></script>
+  <script defer src="product.js"></script>
+
+
 </head>
 <body>
   <!-- Navbar -->
-  <header class="navbar">
-    <div class="nav-left">
-      <a href="index.html">
-        <img src="images/logo.jpg" class="hero-logo" alt="Nourabelle Logo" />
-      </a>
-    </div>
-    <nav class="nav-right">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="products.html" class="nav-link">Products</a>
-      <a href="#contact" class="nav-link">Contact Us</a>
-    </nav>
-  </header>
+ <header class="navbar">
+  <!-- Hamburger (mobile only) -->
+  <div class="hamburger">&#9776;</div>
+
+  <!-- Centered Logo -->
+  <div class="nav-center">
+    <a href="index.html">
+      <img src="images/logo.jpg" alt="Nourabelle Logo" class="hero-logo" />
+    </a>
+  </div>
+
+  <!-- Cart Icon (right) -->
+  <div class="cart-icon-link">
+    <a href="cart.html" aria-label="Cart">
+      <svg xmlns="http://www.w3.org/2000/svg" class="cart-icon" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M7 18c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm10 0c-1.104 
+        0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zM7.333 14l-.867-2H18v-2H7l-.867-2H3v2h2l3.6 
+        7.59-1.35 2.44c-.16.29-.25.63-.25 1 0 1.1.9 2 2 2h12v-2H7.42c-.14 
+        0-.25-.11-.25-.25l.03-.12L8.1 16h8.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49-1.74-1.01L18.1 
+        13H7.333z"/>
+      </svg>
+      <span id="cart-count" class="cart-count">0</span>
+    </a>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="#contact">Contact Us</a>
+  </div>
+</header>
+
 
   <!-- Hero Section with sliding images -->
   <section class="hero">
@@ -44,7 +69,6 @@
 <section class="bestsellers" id="products">
   <h2>Bestsellers</h2>
   <div class="scroll-wrapper">
-    <button class="scroll-btn left" onclick="scrollProducts(-1)">&#10094;</button>
     <div class="product-scroll" id="product-scroll">
       <div class="product" onclick="goToProduct('whiteset')">
         <img id="whiteset" src="images/whiteset1.jpg" alt="White Set" />
@@ -67,7 +91,6 @@
         <p class="price">1xxx EGP</p>
       </div>
     </div>
-    <button class="scroll-btn right" onclick="scrollProducts(1)">&#10095;</button>
   </div>
 </section>
 

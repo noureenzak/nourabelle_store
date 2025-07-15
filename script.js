@@ -22,7 +22,7 @@ function setupSwap(productId, images) {
 
   img.addEventListener("mouseenter", () => {
     index = (index + 1) % images.length;
-    img.src = `images/${images[index]}`;
+    img.src = images[index];
   });
 
   img.addEventListener("mouseleave", () => {
@@ -54,7 +54,7 @@ setupSwap("blackcardigan", ["blackcardigan1.jpg", "blackcardigan2.jpg"]);
 
 //contact us popup 
   document.addEventListener('DOMContentLoaded', () => {
-    const contactLink = document.querySelector('.nav-right a[href="#contact"]');
+   const contactLink = document.querySelector('a[href="#contact"]');
     const modal = document.getElementById('contact-modal');
     const closeBtn = modal.querySelector('.modal-close');
 
@@ -76,3 +76,28 @@ setupSwap("blackcardigan", ["blackcardigan1.jpg", "blackcardigan2.jpg"]);
       }
     });
   });
+//navbar
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.querySelector(".hamburger");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  hamburger.addEventListener("click", () => {
+    mobileMenu.style.display = mobileMenu.style.display === "flex" ? "none" : "flex";
+  });
+
+  //Close menu when clicking a link
+  document.querySelectorAll(".mobile-menu a").forEach(link => {
+    link.addEventListener("click", () => {
+      mobileMenu.style.display = "none";
+    });
+  });
+
+  // Highlight current page
+  const currentPath = window.location.pathname.split("/").pop();
+  document.querySelectorAll(".mobile-menu a").forEach(link => {
+    if (link.getAttribute("href") === currentPath) {
+      link.classList.add("active");
+    }
+  });
+
+});

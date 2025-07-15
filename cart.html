@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Cart – Nourabelle</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="cart.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="hamburger">&#9776;</div>
+    <div class="nav-center">
+      <a href="index.html">
+        <img src="images/logo.jpg" alt="Nourabelle Logo" class="hero-logo" />
+      </a>
+    </div>
+    <div class="cart-icon-link">
+      <a href="cart.html" aria-label="Cart">
+        <svg xmlns="http://www.w3.org/2000/svg" class="cart-icon" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M7 18c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm10 0c-1.104 
+          0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zM7.333 14l-.867-2H18v-2H7l-.867-2H3v2h2l3.6 
+          7.59-1.35 2.44c-.16.29-.25.63-.25 1 0 1.1.9 2 2 2h12v-2H7.42c-.14 
+          0-.25-.11-.25-.25l.03-.12L8.1 16h8.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49-1.74-1.01L18.1 
+          13H7.333z"/>
+        </svg>
+        <span id="cart-count" class="cart-count">0</span>
+      </a>
+    </div>
+    <div id="mobileMenu" class="mobile-menu">
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="#contact">Contact Us</a>
+    </div>
+  </header>
+
+  <!-- Cart Content -->
+  <main class="cart-container">
+    <h1 class="cart-title">Your Cart</h1>
+
+    <div id="cart-items"></div>
+
+    <div id="cart-summary" class="cart-summary" style="display: none;">
+      <div class="shipping-section">
+        <h3>Shipping Information</h3>
+        <select id="shipping-city" class="shipping-select">
+          <option value="">Select Your City</option>
+          <option value="cairo">Cairo - 50 EGP</option>
+          <option value="alexandria">Alexandria - 60 EGP</option>
+          <option value="giza">Giza - 55 EGP</option>
+          <option value="other">Other Cities - 80 EGP</option>
+        </select>
+      </div>
+      
+      <div class="totals-section">
+        <p>Subtotal: <span id="subtotal">0</span> EGP</p>
+        <p>Shipping: <span id="shipping">0</span> EGP</p>
+        <p class="total-amount">Total: <span id="total">0</span> EGP</p>
+      </div>
+      
+      <div class="payment-methods">
+        <h3>Payment Method</h3>
+        <div class="payment-option">
+          <input type="radio" id="cash-on-delivery" name="payment" value="cash" checked>
+          <label for="cash-on-delivery">Cash on Delivery</label>
+        </div>
+        <div class="payment-option">
+          <input type="radio" id="credit-card" name="payment" value="credit">
+          <label for="credit-card">Credit/Debit Card</label>
+        </div>
+        <div class="payment-option">
+          <input type="radio" id="instapay" name="payment" value="instapay">
+          <label for="instapay">Instapay</label>
+        </div>
+      </div>
+      
+      <button id="checkout-btn" class="checkout-button" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+      
+      <div class="return-policy">
+        <a href="#" id="show-policy">View Return & Exchange Policy</a>
+      </div>
+    </div>
+
+    <div id="empty-cart" class="empty-cart" style="display: none;">
+      Your cart is empty 🛒
+    </div>
+  </main>
+
+  <!-- Return Policy Modal -->
+  <div id="policy-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Return & Exchange Policy</h2>
+      <p>You have the option to return or exchange items for size when the courier is delivering your order. Please try on the items while the delivery person is waiting.</p>
+      <p>Exchanges are only available for different sizes of the same item, subject to availability.</p>
+      <p>All items must be returned in their original condition with tags attached.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="footer-content">
+      <a href="https://www.instagram.com/nourabellebynour/" target="_blank" aria-label="Instagram" class="footer-icon-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm4.75-.25a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0z"/>
+        </svg>
+      </a>
+      <a href="mailto:nourabelle@email.com" aria-label="Email" class="footer-icon-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 2v.01L12 13 4 6.01V6h16zM4 18V8l7.17 5.83a1 1 0 001.66 0L20 8v10H4z"/>
+        </svg>
+      </a>
+      <a href="tel:+201234567890" aria-label="Phone" class="footer-icon-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M6.62 10.79a15.093 15.093 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21 11.436 11.436 0 003.58.57 1 1 0 011 1v3.5a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11.436 11.436 0 00.57 3.58 1 1 0 01-.21 1.11l-2.24 2.1z"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+</body>
+</html>
