@@ -6,37 +6,37 @@ const productData = {
     title: "White Set",
     description: "Elegant and modest white two-piece set. Soft fabric, breathable design, perfect for daily wear.",
     image: "images/whiteset1.jpg",
-    price: "1xxx EGP",
+    price: 1500,
   },
   blackset: {
     title: "Black Set",
     description: "Classic black set with a sleek and minimal cut, ideal for any occasion.",
     image: "images/blackset1.jpg",
-    price: "1xxx EGP",
+    price: 1500,
   },
   browncardigan: {
     title: "Brown Cardigan",
     description: "Cozy brown cardigan with flowy fit. Perfect as a layering piece in all seasons.",
     image: "images/browncardigan1.jpg",
-    price: "1xxx EGP",
+    price: 1500,
   },
   blackcardigan: {
     title: "Black Cardigan",
     description: "Timeless black cardigan with soft material and flattering shape.",
     image: "images/blackcardigan1.jpg",
-    price: "1xxx EGP",
+    price: 1500,
   },
   beigeset: {
     title: "Beige Set",
     description: "Soft beige two-piece set with relaxed fit and modern modest cut.",
     image: "images/beigeset1.jpg",
-    price: "1xxx EGP",
+    price: 1500,
   },
   blueset: {
     title: "Blue Set",
     description: "Calm and fresh blue set, light and breathable — perfect for summer days.",
     image: "images/blueset1.jpg",
-    price: "1xxx EGP",
+    price: 1500,
   }
 };
 
@@ -52,6 +52,8 @@ if (productId) {
     document.getElementById("product-image").src = product.image;
     document.getElementById("product-title").textContent = product.title;
     document.getElementById("product-description").textContent = product.description;
+    document.getElementById("product-price").textContent = `Price: ${product.price} EGP`;
+
   }
 
   const buyBtn = document.getElementById("buy-button");
@@ -60,11 +62,12 @@ if (productId) {
     const selectedSize = document.getElementById("size").value;
 
     const cartItem = {
-      name: product.title,
-      image: product.image,
-      size: selectedSize,
-      price: product.price,
-    };
+  name: product.title,
+  image: product.image,
+  size: selectedSize,
+  price: product.price,
+};
+
 
     let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
     cart.push(cartItem);

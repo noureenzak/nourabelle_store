@@ -38,15 +38,47 @@
         <input type="text" id="name" placeholder="Enter your name" required />
       </div>
 
-      <div class="form-group">
-        <label for="address">Street name and building number</label>
-        <textarea id="address" placeholder="Street name, building, floor, etc." required></textarea>
-      </div>
-      
-      <div class="form-group">
-        <label for="address">Delivery Address</label>
-        <textarea id="address" placeholder="Street name, building, floor, etc." required></textarea>
-      </div>
+      <!-- Delivery Address Section -->
+<div class="form-group">
+  <label for="street">Street Name & Building Number</label>
+  <input type="text" id="street" name="street" placeholder="e.g. El Tahrir St, Bldg 5" required />
+</div>
+
+<div class="form-row">
+  <div class="form-group">
+    <label for="floor">Floor</label>
+    <input type="text" id="floor" name="floor" placeholder="e.g. 3" required />
+  </div>
+
+  <div class="form-group">
+    <label for="apartment">Apartment Number</label>
+    <input type="text" id="apartment" name="apartment" placeholder="e.g. 302" required />
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="area">Area or Neighborhood</label>
+  <input type="text" id="area" name="area" placeholder="e.g. Dokki" required />
+</div>
+
+<div class="form-group">
+  <label for="city">City</label>
+  <select id="city" name="city" required>
+    <option value="">Select City</option>
+    <option value="cairo">Cairo</option>
+    <option value="alexandria">Alexandria</option>
+    <option value="giza">Giza</option>
+    <option value="other">Other</option>
+  </select>
+  
+    <div class="form-group" id="other-city-group" style="display: none;">
+  <label for="other-city">Please specify your city</label>
+  <input type="text" id="other-city" name="other-city" placeholder="Enter your city" />
+</div>
+
+</div>
+
+
       <div class="form-row">
         <div class="form-group">
           <label for="phone">Phone Number</label>
@@ -69,9 +101,11 @@
       </div>
 
       <div class="summary-box">
-        <p>Subtotal: <span id="checkout-subtotal">0</span> EGP</p>
-        <p>Shipping: <span id="checkout-shipping">0</span> EGP</p>
-        <p class="total-amount">Total: <span id="checkout-total">0</span> EGP</p>
+       <p>Subtotal: <span class="amount"><span id="checkout-subtotal">--</span> EGP</span></p>
+<p>Shipping: <span class="amount"><span id="checkout-shipping">--</span> EGP</span></p>
+<p class="total-amount">Total: <span class="amount"><span id="checkout-total">--</span> EGP</span></p>
+
+
       </div>
 
       <button type="submit" class="checkout-button">Confirm Order</button>
@@ -97,6 +131,7 @@
       </a>
     </div>
   </footer>
+<script src="checkout.js"></script>
 
 </body>
 </html>

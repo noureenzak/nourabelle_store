@@ -25,20 +25,30 @@ function updateCartCount() {
 
 // -------------------- ADD TO CART FUNCTION --------------------
 function addToCart(productId, productName, productPrice, productImage, selectedSize) {
-  const item = {
-    id: productId,
-    name: productName,
-    price: parseFloat(productPrice),
-    image: productImage,
-    size: selectedSize
-  };
+  const existingItem = cart.find(item =>
+    item.id === productId && item.size === selectedSize
+  );
 
-  cart.push(item);
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    const item = {
+      id: productId,
+      name: productName,
+      price: parseFloat(productPrice),
+      image: productImage,
+      size: selectedSize,
+      quantity: 1
+    };
+    cart.push(item);
+  }
+
   saveCart();
   updateCartCount();
   showMiniCartPreview();
   alert(`${productName} (Size: ${selectedSize}) added to cart!`);
 }
+
 
 // -------------------- MINI CART PREVIEW --------------------
 function showMiniCartPreview() {
@@ -50,14 +60,14 @@ function showMiniCartPreview() {
   const deliveryFee = 50;
 
   cart.forEach(item => {
-    subtotal += item.price;
+    subtotal += item.price * item.quantity;
     const itemDiv = document.createElement("div");
     itemDiv.classList.add("mini-cart-item");
     itemDiv.innerHTML = `
       <img src="${item.image}" alt="${item.name}" width="50">
       <div>
         <p>${item.name} (Size: ${item.size})</p>
-        <p>${item.price} EGP</p>
+        <p>${item.price} EGP × ${item.quantity}</p>
       </div>
     `;
     previewContainer.appendChild(itemDiv);
@@ -111,60 +121,6 @@ if (finalCheckoutBtn) {
 }
 
 // -------------------- CART PAGE RENDERING --------------------
-function renderCartPage() {
-  const cartItemsContainer = document.getElementById("cart-items");
-  const cartSummary = document.getElementById("cart-summary");
-  const emptyCart = document.getElementById("empty-cart");
-
-  if (!cartItemsContainer) return;
-
-  cartItemsContainer.innerHTML = "";
-
-  if (cart.length === 0) {
-    emptyCart.style.display = "block";
-    cartSummary.style.display = "none";
-    return;
-  }
-
-  let subtotal = 0;
-
-  cart.forEach((item, index) => {
-    subtotal += item.price;
-    cartItemsContainer.innerHTML += `
-      <div class="cart-item">
-        <div class="cart-item-box">
-          <img src="${item.image}" alt="${item.name}" class="cart-item-img">
-          <div class="cart-item-info">
-            <h3>${item.name}</h3>
-          </div>
-          <div class="cart-item-right">
-            <button class="remove-btn" data-index="${index}">×</button>
-            <p class="cart-item-size">Size: ${item.size}</p>
-            <p class="cart-item-price">${item.price} EGP</p>
-          </div>
-        </div>
-      </div>
-    `;
-  });
-
-  document.getElementById("subtotal").textContent = subtotal.toFixed(2);
-  document.getElementById("total").textContent = (subtotal + 50).toFixed(2);
-  cartSummary.style.display = "block";
-  emptyCart.style.display = "none";
-
-  document.querySelectorAll('.remove-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const index = parseInt(e.target.dataset.index);
-      cart.splice(index, 1);
-      saveCart();
-      updateCartCount();
-      renderCartPage();
-      if (document.getElementById("mini-cart-preview")) {
-        showMiniCartPreview();
-      }
-    });
-  });
-}
 
 // -------------------- SHIPPING CONFIG --------------------
 const shippingCosts = {
