@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nourabelle Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 280px;
+      height: 100vh;
+      background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
+      color: white;
+      padding: 0;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 2rem 1.5rem;
+      border-bottom: 1px solid #475569;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sidebar-logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #ad7c7c, #8b6666);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .sidebar-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .sidebar-nav {
+      padding: 1rem 0;
+    }
+
+    .nav-item {
+      display: block;
+      padding: 1rem 1.5rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: rgba(173, 124, 124, 0.2);
+      color: white;
+      border-right: 3px solid #ad7c7c;
+    }
+
+    .nav-item i {
+      margin-right: 12px;
+      width: 20px;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 280px;
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      background: white;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-left: auto;
+    }
+
+    .user-name {
+      font-weight: 500;
+      color: #64748b;
+    }
+
+    .logout-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: background 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: #dc2626;
+    }
+
+    .content-area {
+      padding: 2rem;
+    }
+
+    /* Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .stat-title {
+      font-size: 0.875rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .stat-change {
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    .stat-change.positive {
+      color: #16a34a;
+    }
+
+    .stat-change.negative {
+      color: #dc2626;
+    }
+
+    /* Sections */
+    .dashboard-section {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+      display: none;
+    }
+
+    .dashboard-section.active {
+      display: block;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: #ad7c7c;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #8b6666;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    /* Forms */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: #ad7c7c;
+      box-shadow: 0 0 0 3px rgba(173, 124, 124, 0.1);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .data-table th,
+    .data-table td {
+      text-align: left;
+      padding: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .data-table th {
+      background: #f8fafc;
+      font-weight: 600;
+      color: #374151;
+      font-size: 0.875rem;
+    }
+
+    .data-table tr:hover {
+      background: #f8fafc;
+    }
+
+    /* Status badges */
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-processing {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .status-shipped {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-delivered {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-cancelled {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* Product cards */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .product-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 1rem;
+    }
+
+    .product-name {
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #ad7c7c;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-stock {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Loading states */
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #f3f4f6;
+      border-radius: 50%;
+      border-top-color: #ad7c7c;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Notifications */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-left: 4px solid #16a34a;
+      z-index: 9999;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .notification.error {
+      border-left-color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo">N</div>
+        <div class="sidebar-title">Nourabelle</div>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-section="dashboard">
+        📊 Dashboard
+      </button>
+      <button class="nav-item" data-section="products">
+        📦 Products
+      </button>
+      <button class="nav-item" data-section="orders">
+        📋 Orders
+      </button>
+      <button class="nav-item" data-section="analytics">
+        📈 Analytics
+      </button>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="page-title" id="page-title">Dashboard</div>
+      <div class="user-menu">
+        <span class="user-name">Welcome, Nour</span>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <!-- Dashboard Section -->
+      <section id="dashboard-section" class="dashboard-section active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Total Orders</div>
+              <div class="stat-icon" style="background: #dbeafe; color: #1e40af;">📋</div>
+            </div>
+            <div class="stat-value" id="total-orders">0</div>
+            <div class="stat-change positive">+12% from last month</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Pending Orders</div>
+              <div class="stat-icon" style="background: #fef3c7; color: #92400e;">⏳</div>
+            </div>
+            <div class="stat-value" id="pending-orders">0</div>
+            <div class="stat-change positive">+3 new today</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Total Revenue</div>
+              <div class="stat-icon" style="background: #d1fae5; color: #065f46;">💰</div>
+            </div>
+            <div class="stat-value" id="total-revenue">0 EGP</div>
+            <div class="stat-change positive">+8% from last month</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Products</div>
+              <div class="stat-icon" style="background: #e0e7ff; color: #4338ca;">📦</div>
+            </div>
+            <div class="stat-value" id="total-products">6</div>
+            <div class="stat-change">All in stock</div>
+          </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="dashboard-section active">
+          <div class="section-header">
+            <h2 class="section-title">Recent Orders</h2>
+            <button class="btn btn-secondary" onclick="showSection('orders')">View All</button>
+          </div>
+          <div id="recent-orders-table"></div>
+        </div>
+      </section>
+
+      <!-- Products Section -->
+      <section id="products-section" class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">Product Management</h2>
+          <button class="btn btn-primary" onclick="showAddProductForm()">+ Add Product</button>
+        </div>
+
+        <!-- Add Product Form -->
+        <div id="add-product-form" style="display: none; background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+          <h3 style="margin-bottom: 1rem;">Add New Product</h3>
+          <form id="product-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Product Name</label>
+                <input type="text" class="form-input" name="name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Price (EGP)</label>
+                <input type="number" class="form-input" name="price" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Stock Quantity</label>
+                <input type="number" class="form-input" name="stock" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Category</label>
+                <select class="form-select" name="category" required>
+                  <option value="sets">Sets</option>
+                  <option value="cardigans">Cardigans</option>
+                  <option value="accessories">Accessories</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description</label>
+              <textarea class="form-textarea" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Product Image</label>
+              <input type="file" class="form-input" name="image" accept="image/*" required>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+              <button type="submit" class="btn btn-primary">Add Product</button>
+              <button type="button" class="btn btn-secondary" onclick="hideAddProductForm()">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="products-grid">
+          <!-- Products will be loaded here -->
+        </div>
+      </section>
+
+      <!-- Orders Section -->
+      <section id="orders-section" class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">Order Management</h2>
+          <div style="display: flex; gap: 1rem;">
+            <select class="form-select" id="order-filter" onchange="filterOrders()">
+              <option value="all">All Orders</option>
+              <option value="pending">Pending</option>
+              <option value="processing">Processing</option>
+              <option value="shipped">Shipped</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <button class="btn btn-secondary" onclick="loadOrders()">Refresh</button>
+          </div>
+        </div>
+        <div id="orders-table"></div>
+      </section>
+
+      <!-- Analytics Section -->
+      <section id="analytics-section" class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">Analytics</h2>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Average Order Value</div>
+              <div class="stat-icon" style="background: #f3e8ff; color: #7c3aed;">📊</div>
+            </div>
+            <div class="stat-value" id="avg-order-value">0 EGP</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Conversion Rate</div>
+              <div class="stat-icon" style="background: #fef3c7; color: #92400e;">📈</div>
+            </div>
+            <div class="stat-value">3.2%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Best Selling Category</div>
+              <div class="stat-icon" style="background: #dcfce7; color: #166534;">🏆</div>
+            </div>
+            <div class="stat-value">Sets</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Customer Satisfaction</div>
+              <div class="stat-icon" style="background: #fee2e2; color: #991b1b;">⭐</div>
+            </div>
+            <div class="stat-value">4.8/5</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    // Authentication check
+    if (sessionStorage.getItem('nourabelle_admin_auth') !== 'true') {
+      window.location.href = 'admin-login.html';
+    }
+
+    // Sample product data (this will be replaced with database data later)
+    let products = [
+      {
+        id: 'whiteset',
+        name: 'White Set',
+        price: 1500,
+        stock: 15,
+        category: 'sets',
+        description: 'Elegant and modest white two-piece set. Soft fabric, breathable design, perfect for daily wear.',
+        image: 'images/whiteset1.jpg',
+        active: true
+      },
+      {
+        id: 'blackset',
+        name: 'Black Set',
+        price: 1500,
+        stock: 12,
+        category: 'sets',
+        description: 'Classic black set with a sleek and minimal cut, ideal for any occasion.',
+        image: 'images/blackset1.jpg',
+        active: true
+      },
+      {
+        id: 'browncardigan',
+        name: 'Brown Cardigan',
+        price: 1500,
+        stock: 8,
+        category: 'cardigans',
+        description: 'Cozy brown cardigan with flowy fit. Perfect as a layering piece in all seasons.',
+        image: 'images/browncardigan1.jpg',
+        active: true
+      },
+      {
+        id: 'blackcardigan',
+        name: 'Black Cardigan',
+        price: 1500,
+        stock: 10,
+        category: 'cardigans',
+        description: 'Timeless black cardigan with soft material and flattering shape.',
+        image: 'images/blackcardigan1.jpg',
+        active: true
+      },
+      {
+        id: 'beigeset',
+        name: 'Beige Set',
+        price: 1500,
+        stock: 14,
+        category: 'sets',
+        description: 'Soft beige two-piece set with relaxed fit and modern modest cut.',
+        image: 'images/beigeset1.jpg',
+        active: true
+      },
+      {
+        id: 'blueset',
+        name: 'Blue Set',
+        price: 1500,
+        stock: 11,
+        category: 'sets',
+        description: 'Calm and fresh blue set, light and breathable — perfect for summer days.',
+        image: 'images/blueset1.jpg',
+        active: true
+      }
+    ];
+
+    // Navigation functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const navItems = document.querySelectorAll('.nav-item');
+      const sections = document.querySelectorAll('.dashboard-section');
+      
+      navItems.forEach(item => {
+        item.addEventListener('click', function() {
+          const sectionId = this.dataset.section;
+          showSection(sectionId);
+          
+          // Update active nav item
+          navItems.forEach(nav => nav.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // Initialize dashboard
+      loadDashboardData();
+      loadProducts();
+      loadOrders();
+    });
+
+    // Show specific section
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.dashboard-section');
+      sections.forEach(section => section.classList.remove('active'));
+      
+      document.getElementById(`${sectionId}-section`).classList.add('active');
+      
+      // Update page title
+      const titles = {
+        dashboard: 'Dashboard',
+        products: 'Product Management',
+        orders: 'Order Management',
+        analytics: 'Analytics'
+      };
+      document.getElementById('page-title').textContent = titles[sectionId] || 'Dashboard';
+    }
+
+    // Load dashboard statistics
+    function loadDashboardData() {
+      const orders = JSON.parse(localStorage.getItem('nourabelle_orders') || '[]');
+      
+      // Update statistics
+      document.getElementById('total-orders').textContent = orders.length;
+      document.getElementById('pending-orders').textContent = orders.filter(o => o.status === 'pending').length;
+      
+      const totalRevenue = orders.reduce((sum, order) => sum + parseFloat(order.total || 0), 0);
+      document.getElementById('total-revenue').textContent = totalRevenue.toLocaleString() + ' EGP';
+      
+      document.getElementById('total-products').textContent = products.filter(p => p.active).length;
+      
+      // Calculate average order value
+      const avgOrderValue = orders.length > 0 ? totalRevenue / orders.length : 0;
+      document.getElementById('avg-order-value').textContent = avgOrderValue.toFixed(0) + ' EGP';
+      
+      // Load recent orders
+      loadRecentOrders();
+    }
+
+    // Load recent orders for dashboard
+    function loadRecentOrders() {
+      const orders = JSON.parse(localStorage.getItem('nourabelle_orders') || '[]');
+      const recentOrders = orders.slice(-5).reverse(); // Last 5 orders
+      
+      const tableContainer = document.getElementById('recent-orders-table');
+      
+      if (recentOrders.length === 0) {
+        tableContainer.innerHTML = '<p style="text-align: center; color: #64748b; padding: 2rem;">No orders yet</p>';
+        return;
+      }
+      
+      const tableHTML = `
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${recentOrders.map(order => `
+              <tr>
+                <td>#${order.id}</td>
+                <td>${order.customerName}</td>
+                <td>${order.total} EGP</td>
+                <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+      
+      tableContainer.innerHTML = tableHTML;
+    }
+
+    // Product management
+    function loadProducts() {
+      const grid = document.getElementById('products-grid');
+      const activeProducts = products.filter(p => p.active);
+      
+      grid.innerHTML = activeProducts.map(product => `
+        <div class="product-card">
+          <img src="${product.image}" alt="${product.name}" class="product-image">
+          <div class="product-info">
+            <div class="product-name">${product.name}</div>
+            <div class="product-price">${product.price} EGP</div>
+            <div class="product-stock">Stock: ${product.stock} units</div>
+            <div class="product-actions">
+              <button class="btn btn-secondary" onclick="editProduct('${product.id}')">Edit</button>
+              <button class="btn btn-danger" onclick="deleteProduct('${product.id}')">Delete</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Show/hide add product form
+    function showAddProductForm() {
+      document.getElementById('add-product-form').style.display = 'block';
+    }
+
+    function hideAddProductForm() {
+      document.getElementById('add-product-form').style.display = 'none';
+      document.getElementById('product-form').reset();
+    }
+
+    // Add product form submission
+    document.getElementById('product-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const imageFile = formData.get('image');
+      
+      if (imageFile.size === 0) {
+        showNotification('Please select an image', 'error');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const newProduct = {
+          id: 'product_' + Date.now(),
+          name: formData.get('name'),
+          price: parseFloat(formData.get('price')),
+          stock: parseInt(formData.get('stock')),
+          category: formData.get('category'),
+          description: formData.get('description'),
+          image: e.target.result,
+          active: true,
+          createdAt: new Date().toISOString()
+        };
+        
+        products.push(newProduct);
+        localStorage.setItem('nourabelle_products', JSON.stringify(products));
+        
+        loadProducts();
+        loadDashboardData();
+        hideAddProductForm();
+        showNotification('Product added successfully!');
+      };
+      reader.readAsDataURL(imageFile);
+    });
+
+    // Edit product
+    function editProduct(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      
+      // Simple prompt-based editing (can be enhanced with a modal)
+      const newName = prompt('Product Name:', product.name);
+      const newPrice = prompt('Price (EGP):', product.price);
+      const newStock = prompt('Stock Quantity:', product.stock);
+      const newDescription = prompt('Description:', product.description);
+      
+      if (newName && newPrice && newStock && newDescription) {
+        product.name = newName;
+        product.price = parseFloat(newPrice);
+        product.stock = parseInt(newStock);
+        product.description = newDescription;
+        product.updatedAt = new Date().toISOString();
+        
+        localStorage.setItem('nourabelle_products', JSON.stringify(products));
+        loadProducts();
+        loadDashboardData();
+        showNotification('Product updated successfully!');
+      }
+    }
+
+    // Delete product
+    function deleteProduct(productId) {
+      if (confirm('Are you sure you want to delete this product?')) {
+        const productIndex = products.findIndex(p => p.id === productId);
+        if (productIndex !== -1) {
+          products[productIndex].active = false;
+          localStorage.setItem('nourabelle_products', JSON.stringify(products));
+          loadProducts();
+          loadDashboardData();
+          showNotification('Product deleted successfully!');
+        }
+      }
+    }
+
+    // Order management
+    function loadOrders() {
+      const orders = JSON.parse(localStorage.getItem('nourabelle_orders') || '[]');
+      const tableContainer = document.getElementById('orders-table');
+      
+      if (orders.length === 0) {
+        tableContainer.innerHTML = '<p style="text-align: center; color: #64748b; padding: 2rem;">No orders yet</p>';
+        return;
+      }
+      
+      const sortedOrders = orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      
+      const tableHTML = `
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sortedOrders.map(order => `
+              <tr data-status="${order.status}">
+                <td>#${order.id}</td>
+                <td>
+                  <div>${order.customerName}</div>
+                  <div style="font-size: 0.75rem; color: #64748b;">${order.customerPhone}</div>
+                </td>
+                <td>
+                  ${order.items ? order.items.map(item => `${item.name} (${item.size})`).join('<br>') : 'No items'}
+                </td>
+                <td>${order.total} EGP</td>
+                <td>
+                  <select class="form-select" onchange="updateOrderStatus(${order.id}, this.value)" style="min-width: 120px;">
+                    <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                    <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
+                    <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                    <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                    <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                  </select>
+                </td>
+                <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                <td>
+                  <button class="btn btn-secondary" onclick="viewOrderDetails(${order.id})">View</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+      
+      tableContainer.innerHTML = tableHTML;
+    }
+
+    // Update order status
+    function updateOrderStatus(orderId, newStatus) {
+      const orders = JSON.parse(localStorage.getItem('nourabelle_orders') || '[]');
+      const orderIndex = orders.findIndex(order => order.id == orderId);
+      
+      if (orderIndex !== -1) {
+        orders[orderIndex].status = newStatus;
+        orders[orderIndex].updatedAt = new Date().toISOString();
+        localStorage.setItem('nourabelle_orders', JSON.stringify(orders));
+        
+        loadDashboardData();
+        showNotification(`Order #${orderId} status updated to ${newStatus.toUpperCase()}`);
+      }
+    }
+
+    // View order details
+    function viewOrderDetails(orderId) {
+      const orders = JSON.parse(localStorage.getItem('nourabelle_orders') || '[]');
+      const order = orders.find(o => o.id == orderId);
+      
+      if (order) {
+        const details = `
+Order ID: #${order.id}
+Customer: ${order.customerName}
+Email: ${order.customerEmail}
+Phone: ${order.customerPhone}
+Address: ${order.address ? (typeof order.address === 'object' ? `${order.address.street}, ${order.address.area}, ${order.address.city}` : order.address) : 'No address'}
+Payment Method: ${order.paymentMethod}
+Total: ${order.total} EGP
+Status: ${order.status.toUpperCase()}
+Date: ${new Date(order.createdAt).toLocaleString()}
+Items: ${order.items ? order.items.map(item => `${item.name} (${item.size})`).join(', ') : 'No items'}
+        `;
+        alert(details);
+      }
+    }
+
+    // Filter orders
+    function filterOrders() {
+      const filter = document.getElementById('order-filter').value;
+      const rows = document.querySelectorAll('#orders-table tbody tr');
+      
+      rows.forEach(row => {
+        if (filter === 'all' || row.dataset.status === filter) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Show notification
+    function showNotification(message, type = 'success') {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type === 'error' ? 'error' : ''}`;
+      notification.textContent = message;
+      
+      document.body.appendChild(notification);
+      
+      // Show notification
+      setTimeout(() => notification.classList.add('show'), 100);
+      
+      // Hide and remove notification
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => document.body.removeChild(notification), 300);
+      }, 3000);
+    }
+
+    // Logout function
+    function logout() {
+      if (confirm('Are you sure you want to logout?')) {
+        sessionStorage.removeItem('nourabelle_admin_auth');
+        sessionStorage.removeItem('nourabelle_admin_user');
+        window.location.href = 'admin-login.html';
+      }
+    }
+
+    // Initialize sample orders if none exist
+    if (!localStorage.getItem('nourabelle_orders')) {
+      const sampleOrders = [
+        {
+          id: 1001,
+          customerName: "Sarah Ahmed",
+          customerPhone: "+201234567890",
+          customerEmail: "sarah@email.com",
+          address: {
+            street: "123 Tahrir Street",
+            floor: "5",
+            apartment: "12",
+            area: "Downtown",
+            city: "Cairo"
+          },
+          items: [
+            { name: "White Set", size: "Medium", price: 1500, quantity: 1 }
+          ],
+          paymentMethod: "cash",
+          total: 1550,
+          status: "pending",
+          createdAt: new Date(Date.now() - 86400000).toISOString()
+        },
+        {
+          id: 1002,
+          customerName: "Mona Hassan",
+          customerPhone: "+201987654321",
+          customerEmail: "mona@email.com",
+          address: {
+            street: "456 Nile Street",
+            floor: "2",
+            apartment: "8",
+            area: "Zamalek",
+            city: "Cairo"
+          },
+          items: [
+            { name: "Black Cardigan", size: "Large", price: 1500, quantity: 1 }
+          ],
+          paymentMethod: "card",
+          total: 1550,
+          status: "shipped",
+          createdAt: new Date(Date.now() - 172800000).toISOString()
+        }
+      ];
+      
+      localStorage.setItem('nourabelle_orders', JSON.stringify(sampleOrders));
+    }
+  </script>
+</body>
+</html>

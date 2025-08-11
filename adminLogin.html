@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nourabelle Admin - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #d09a9a 0%, #fcfcfc 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, #ad7c7c, #8b6666);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      font-weight: 700;
+    }
+
+    .login-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .login-subtitle {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #ad7c7c;
+      box-shadow: 0 0 0 3px rgba(173, 124, 124, 0.1);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #ad7c7c, #8b6666);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(173, 124, 124, 0.3);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-message {
+      background: #fee;
+      color: #c33;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      text-align: center;
+      display: none;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ffffff40;
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .back-to-site {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-to-site a {
+      color: #666;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .back-to-site a:hover {
+      color: #ad7c7c;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 480px) {
+      .login-container {
+        margin: 10px;
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <div class="logo">N</div>
+      <h1 class="login-title">Admin Portal</h1>
+      <p class="login-subtitle">Nourabelle Management System</p>
+    </div>
+
+    <div id="error-message" class="error-message">
+      Invalid credentials. Please try again.
+    </div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" class="form-input" required>
+      </div>
+      
+      <button type="submit" id="login-btn" class="login-btn">
+        Sign In
+      </button>
+    </form>
+
+    <div class="back-to-site">
+      <a href="index.html">← Back to Nourabelle Store</a>
+    </div>
+  </div>
+
+  <script>
+    // Admin credentials (in production, this would be handled server-side)
+    const ADMIN_CREDENTIALS = {
+      username: '1234',
+      password: '1234'
+    };
+
+    const loginForm = document.getElementById('login-form');
+    const errorMessage = document.getElementById('error-message');
+    const loginBtn = document.getElementById('login-btn');
+
+    loginForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      // Show loading state
+      loginBtn.innerHTML = '<span class="loading"></span>Signing in...';
+      loginBtn.disabled = true;
+      errorMessage.style.display = 'none';
+      
+      // Simulate authentication delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Check credentials
+      if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+        // Set admin session
+        sessionStorage.setItem('nourabelle_admin_auth', 'true');
+        sessionStorage.setItem('nourabelle_admin_user', username);
+        
+        // Redirect to dashboard
+        window.location.href = 'dashboard.html';
+      } else {
+        // Show error
+        errorMessage.style.display = 'block';
+        loginBtn.innerHTML = 'Sign In';
+        loginBtn.disabled = false;
+        
+        // Clear form
+        document.getElementById('password').value = '';
+        document.getElementById('username').focus();
+      }
+    });
+
+    // Check if already logged in
+    if (sessionStorage.getItem('nourabelle_admin_auth') === 'true') {
+      window.location.href = 'admin-dashboard.html';
+    }
+  </script>
+</body>
+</html>
